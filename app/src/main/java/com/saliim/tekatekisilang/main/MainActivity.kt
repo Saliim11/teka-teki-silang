@@ -1,4 +1,4 @@
-package com.saliim.tekatekisilang
+package com.saliim.tekatekisilang.main
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import com.saliim.tekatekisilang.API
+import com.saliim.tekatekisilang.R
+import com.saliim.tekatekisilang.adapter.TtsAdapterMendatar
+import com.saliim.tekatekisilang.adapter.TtsAdapterMenurun
 import com.saliim.tekatekisilang.model.GetTts
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_jawab.view.*
@@ -39,11 +43,12 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity,
                 RecyclerItemClickListener.OnItemClickListener { view, position ->
 
-                    val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_jawab, null)
+                    val mDialogView =
+                        LayoutInflater.from(this).inflate(R.layout.custom_jawab, null)
 
                     val mBuilder = AlertDialog.Builder(this@MainActivity)
                         .setView(mDialogView)
-                        .setTitle(dataMenurun!![position].noSoal+" "+dataMenurun!![position].jenis)
+                        .setTitle(dataMenurun!![position].noSoal + " " + dataMenurun!![position].jenis)
 
                     mDialogView.txt_tanya.text = dataMenurun!![position].tanya
 
@@ -60,10 +65,16 @@ class MainActivity : AppCompatActivity() {
 
                         val isianS = isian == isian.toUpperCase()
 
-                        if (isian == jawab){
+                        if (isian == jawab) {
 
                             quiz.forEachIndexed { index, c ->
-                                val board = findViewById<Button>(resources.getIdentifier("c${coord[0]}${coord[1] + index}", "id", packageName))
+                                val board = findViewById<Button>(
+                                    resources.getIdentifier(
+                                        "c${coord[0]}${coord[1] + index}",
+                                        "id",
+                                        packageName
+                                    )
+                                )
                                 Log.d("board", "c${coord[0] + index}${coord[1]}")
 
 
@@ -81,9 +92,9 @@ class MainActivity : AppCompatActivity() {
 
                             Toast.makeText(this@MainActivity, "anda benar", Toast.LENGTH_LONG).show()
 
-                        }else if (isianS){
+                        } else if (isianS) {
                             Toast.makeText(this@MainActivity, "jangan gunakan huruf besar", Toast.LENGTH_LONG).show()
-                        }else{
+                        } else {
                             Toast.makeText(this@MainActivity, "anda salah", Toast.LENGTH_LONG).show()
                         }
 
@@ -95,16 +106,17 @@ class MainActivity : AppCompatActivity() {
 
         recyclerMendatar.addOnItemTouchListener(
             RecyclerItemClickListener(
-            this@MainActivity,
+                this@MainActivity,
                 RecyclerItemClickListener.OnItemClickListener { view, position ->
 
-                    val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_jawab, null)
+                    val mDialogView =
+                        LayoutInflater.from(this).inflate(R.layout.custom_jawab, null)
 
                     val mBuilder = AlertDialog.Builder(this@MainActivity)
                         .setView(mDialogView)
-                        .setTitle(dataMendatar!![position].noSoal+" "+dataMendatar!![position].jenis)
+                        .setTitle(dataMendatar!![position].noSoal + " " + dataMendatar!![position].jenis)
 
-                        mDialogView.txt_tanya.text = dataMendatar!![position].tanya
+                    mDialogView.txt_tanya.text = dataMendatar!![position].tanya
 
                     val mAlertDialog = mBuilder.show()
 
@@ -120,14 +132,20 @@ class MainActivity : AppCompatActivity() {
 
                         val isianS = isian == isian.toUpperCase()
 
-                        if (isian == jawab){
+                        if (isian == jawab) {
 
                             quiz.forEachIndexed { index, c ->
-                                val board = findViewById<Button>(resources.getIdentifier("c${coord[0] + index}${coord[1]}", "id", packageName))
+                                val board = findViewById<Button>(
+                                    resources.getIdentifier(
+                                        "c${coord[0] + index}${coord[1]}",
+                                        "id",
+                                        packageName
+                                    )
+                                )
                                 Log.d("board", "c${coord[0] + index}${coord[1]}")
 
 
-                               board.text = c.toString()
+                                board.text = c.toString()
                             }
 
                             ttsCounter -= 1
@@ -141,9 +159,9 @@ class MainActivity : AppCompatActivity() {
 
                             Toast.makeText(this@MainActivity, "anda benar", Toast.LENGTH_LONG).show()
 
-                        }else if (isianS){
+                        } else if (isianS) {
                             Toast.makeText(this@MainActivity, "jangan gunakan huruf besar", Toast.LENGTH_LONG).show()
-                        }else{
+                        } else {
                             Toast.makeText(this@MainActivity, "anda salah", Toast.LENGTH_LONG).show()
                         }
 
@@ -156,17 +174,12 @@ class MainActivity : AppCompatActivity() {
 
         getDataMenurun()
 
-//        Log.d("quis", this@MainActivity.datas!![0].toString())
 
-//        swipe_refresh.setOnRefreshListener {
-//            getDataMendatar()
-//            getDataMenurun()
-//        }
 
     }
 
     private fun handleWin() {
-        Toast.makeText(this@MainActivity, "anda menang", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this@MainActivity, "anda menang", Toast.LENGTH_SHORT).show()
 
         val builder = AlertDialog.Builder(this@MainActivity)
         builder.setTitle("Finish")
@@ -187,17 +200,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        swipe_refresh.isRefreshing = true
-//        getDataMendatar()
-//        getDataMenurun()
-//
-//        swipe_refresh.setOnRefreshListener {
-//            getDataMendatar()
-//            getDataMenurun()
-//        }
-//    }
+
 
     private fun getDataMenurun() {
         API.getTJMenurun().enqueue(object : Callback<ArrayList<GetTts>>{
@@ -223,12 +226,12 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this@MainActivity, "gagal", Toast.LENGTH_LONG).show()
                 }
-                swipe_refresh.isRefreshing = false
+
             }
 
             override fun onFailure(call: Call<ArrayList<GetTts>>, t: Throwable) {
                 Toast.makeText(this@MainActivity, "gagal2", Toast.LENGTH_LONG).show()
-                swipe_refresh.isRefreshing = false
+
             }
         })
     }
@@ -257,12 +260,12 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this@MainActivity, "gagal", Toast.LENGTH_LONG).show()
                 }
-                swipe_refresh.isRefreshing = false
+
             }
 
             override fun onFailure(call: Call<ArrayList<GetTts>>, t: Throwable) {
                 Toast.makeText(this@MainActivity, "gagal2", Toast.LENGTH_LONG).show()
-                swipe_refresh.isRefreshing = false
+
             }
         })
     }

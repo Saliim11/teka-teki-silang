@@ -1,19 +1,20 @@
-package com.saliim.tekatekisilang;
+package com.saliim.tekatekisilang.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.saliim.tekatekisilang.R;
 import com.saliim.tekatekisilang.model.GetTts;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TtsAdapterMendatar extends RecyclerView.Adapter<TtsAdapterMendatar.TtsViewHolder> {
+public class TtsAdapterMenurun extends RecyclerView.Adapter<TtsAdapterMenurun.TtsViewHolder> {
     private List<GetTts> dataSet;
 
-    public TtsAdapterMendatar(ArrayList<GetTts> datas){
+    public TtsAdapterMenurun(ArrayList<GetTts> datas){
         dataSet = datas;
     }
 
