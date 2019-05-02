@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                                         packageName
                                     )
                                 )
-                                Log.d("board", "c${coord[0] + index}${coord[1]}")
+//                                Log.d("board", "c${coord[0] + index}${coord[1]}")
 
 
                                 board.text = c.toString()
